@@ -1,18 +1,21 @@
 {
   "name": "starter-sea",
   "version": "0.1.0",
-  "type": "module",
-  "main": "dist/index.js",
+  "type": "commonjs",
+  "main": "dist/main.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "sea:blob": "node --experimental-sea-config sea-config.json",
-    "sea:inject": "node --loader ts-node/esm ./scripts/sea-inject.ts",
-    "pkg": "npm run build && npm run sea:blob && npm run sea:inject"
+    "build": "rimraf dist && esbuild src/main.ts --bundle --outfile=dist/main.js --platform=node --format=cjs",
+    "pkg:prep": "node --experimental-sea-config sea-config.json",
+    "pkg:inject": "ts-node sea-inject.ts",
+    "pkg": "rimraf bin && npm run build && npm run pkg:prep && npm run pkg:inject"
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
+    "esbuild": "^0.25.4",
+    "postject": "^1.0.0-alpha.6",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
+    "ts-pattern": "^5.7.1",
     "typescript": "^5.8.3"
   }
 }
